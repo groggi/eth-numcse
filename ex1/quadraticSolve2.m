@@ -7,12 +7,13 @@ function x = quadraticSolve2(a, b, c)
 
 % calculate parts
 r = sqrt(b^2 - 4*a*c);
+l = 2*a;
 
 % calculate result
 if b > 0
-  x1 = (-b - sqrt(b^2 - 4*a*c))/(2*a);
+  x1 = (-b - r)/l;
 else
-  x1 = (-b + sqrt(b^2 - 4*a*c))/(2*a);
+  x1 = (-b + r)/l;
 end
 
 x = [x1; c/x1];
