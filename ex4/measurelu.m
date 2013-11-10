@@ -22,17 +22,17 @@ for n = sizes
       A = spdiags(B, [0, 1, -2], n, n);
 
     tic;
-      [L, U, P] = lu(A);
+      [L, U] = lu(A);
 
-      c = L \ P*b;
+      c = L \ b;
       x = U \ c;
     sparseT = min(toc, sparseT);
     
     % full
     fullA = full(A);
     tic;
-      [L2, U2, P2] = lu(fullA);
-      c2 = L2 \ P2*b;
+      [L2, U2] = lu(fullA);
+      c2 = L2 \ b;
       x2 = U2 \ c2;
     fullT = min(toc, fullT);
   end
