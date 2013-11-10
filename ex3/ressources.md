@@ -10,3 +10,6 @@ Eine Givens Rotation G(i, j, w) ist eine quadratische Matrix, in deren Diagonale
 * g_{i, j} = sin(w) für i > j
 
 G(i, j, w) * x, wobei x ein Vektor ist, so wird hiermit der Vektor x in der Ebene (i, j) um den Winkel (w) im Gegenuhrzeigersinn gedreht.
+
+# Notizen, allgemein
+* `u`, `v` Spaltenvektoren, dann ist `u^H * v` ein Skalar
