@@ -26,7 +26,7 @@ function problem10(d)
   DMathUrls(SortedIndexes(1:10))
 
   function y = AMult(G, x, d, npages, nlinks)
-  % from solution... never would guessed that we should to it this way...
+  % from solution... never would guessed that we should do it this way...
     y = sum(x) / npages + (1 - d) * G * (x ./ nlinks) + (d - 1)/npages * sum(x(find(nlinks)));
   end
 
