@@ -1,5 +1,5 @@
 ts = linspace(-1, 1, 1000);
-ks = 0:6;
+ks = 0:5;
 
 [P, ~] = eval_legendre(max(ks), ts);
 
