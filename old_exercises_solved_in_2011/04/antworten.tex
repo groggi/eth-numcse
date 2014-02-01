@@ -1,0 +1,113 @@
+\documentclass[11pt]{article}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[utf8]{inputenc}
+\usepackage{soulutf8}
+\usepackage[letterpaper,headheight=14pt,includeheadfoot]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhf[HL]{Gregor Wegberg}
+\fancyhf[HR]{NumCSE - Serie 4}
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\begin{document}
+\section{Problem 10}
+\subsection{10a}
+Für Lösung siehe Code (normaleq.m).
+Habe den Code geschrieben und es hat auch funktioniert.
+
+Nachdem aber mit der Musterlösung vergliechen habe, ist mir aufgefallen dass ich in der Zeile 11 $y = L \backslash b\_norm$ verwende, statt $y = L' \backslash b\_norm$. Das gleiche gilt für die Zeile 14. Nachdem die Dokumentation gelesen habe, war alles klar: Auf den Vorlesungsfolien wäre $\operatorname{chol}(A) = L * L'$, Matlab liefert aber $\operatorname{chol}(A) = L' * L$. Somit musste ich jeweils dies entsprechend anpassen.
+
+\subsection{10b}
+Für Lösung siehe Code (qrsolve.m). Hat mit Hilfe der Vorlesungsfolien gut geklappt und hat auf Anhieb mit der Musterlösung übereingestummen.
+
+\subsection{10c}
+Konnte es zuerst nicht lösen, da in der Aufgabe stand, dass die Funktion zwei Parameter entgegenen nimmt: Eine Matrix A und einen Vektor b. Konnte nicht erkennen, woher nun U und V kommen sollten. Nachdem einen Blick in die Musterlösung war klar, dass die Aufgabenstellung wohl falsch formuliert wurde und habe somit eine Funktion gebaut, die A, b, U und V entgegen nimmt und x liefert. So kann $(A + UV^T)x = b$ auch berechnet werden, wie verlangt.
+
+Für Lösung siehe Code (qr2update.m). Mein Code stimmt nicht genau mit der Musterlösung überein, wobei diese nicht mit der Aufgabe übereinzustimmen scheint. Wenn man sich aber genauer Listing 21 und Listing 19 ansieht, so müsste meine Lösung mit der Musterlösung übereinstimmen. Beide Programme machen das Gleiche.
+
+\subsection{10d}
+\begin{align*}
+(A + uv^T)^T(A + uv^T) &= (A^T + vu^T)(A + uv^T)\\
+&= A^T A + A^T uv^T + vu^T A + v u^T u v^T\\
+&= A^T A + A^T uv^T + v(u^T A + u^T u v^T)\\
+&= \ldots
+\end{align*}
+
+Hier bin ich angestanden. Nach einem kurzen Blick in die Musterlösung habe ich verstanden was die Idee war und habe sie dann selbstständig wieder angewendet.
+
+Sei $B = \begin{pmatrix}
+v & A^Tu
+\end{pmatrix}$,
+$C = \begin{pmatrix}
+u^T u & 1\\
+1 & 0
+\end{pmatrix}$. Somit gilt:
+\begin{align*}
+(A + uv^T)^T(A + uv^T) &= \ldots\\
+&= A^T A + B C B^T
+\end{align*}
+
+Nun sollte man laut dem zweiten Tipp $C$ durch $C = D \begin{pmatrix}
+1 & 0 \\ 0 & -1
+\end{pmatrix} D^T$ ausdrücken, wobei $D \in \mathbb{R}^{2,2}$.
+
+Als erstes habe ich mir angesehen, was für eine Matrix ich erhalten würde für $D = \begin{pmatrix}
+a & b \\ c & d
+\end{pmatrix}$ angewendet auf $D \begin{pmatrix}
+1 & 0 \\ 0 & -1
+\end{pmatrix} D^T$:
+\begin{align*}
+\begin{pmatrix} a & b \\ c & d \end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \begin{pmatrix} a & c \\ b & d \end{pmatrix} &= \begin{pmatrix} a & -b \\ c & -d \end{pmatrix} \begin{pmatrix} a & c \\ b & d \end{pmatrix}\\
+&= \begin{pmatrix} a^2 - b^2 & ac - bd \\ ac - bd & c^2 - d^2 \end{pmatrix}
+\end{align*}
+
+Setzt man das nun mit $C$ gleich, so bekommt man folgendes Gleichungssystem:
+\begin{align*}
+c^2 - d^2 &= 0 \\
+ac - bd &= 1 \\
+a^2 - b^2 &= u^T u
+\end{align*} Was ein unterbestimmtes Gleichungssystem ist. Wir wählen $d = 0$ (Wahl nach Musterlösung getroffen) und erhalten so: $a = \sqrt{u^T u}$ und $b = c= \frac{1}{\sqrt{u^T u}}$ was zu
+\begin{equation*}
+C =
+\underbrace{\begin{pmatrix}
+\sqrt{u^T u} & 0 \\
+\frac{1}{\sqrt{u^T u}} & \frac{1}{\sqrt{u^T u}}
+\end{pmatrix}}_{D}
+\begin{pmatrix}
+1 & 0 \\
+0 & -1
+\end{pmatrix}
+\underbrace{
+\begin{pmatrix}
+\sqrt{u^T u} & \frac{1}{\sqrt{u^T u}} \\
+0 & \frac{1}{\sqrt{u^T u}}
+\end{pmatrix}}_{D^T}
+\end{equation*}
+
+Wir haben also schlussendlich:
+\begin{align*}
+(A + uv^T)^T(A + uv^T) &= A^T A + B D \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} D^T B^T \\
+&\stackrel{\text{!}}{=} A^T A + \alpha \alpha^T - \beta \beta^T\\
+&\Rightarrow \alpha \alpha^T - \beta \beta^T \stackrel{\text{!}}{=} B D \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} D^T B^T
+\end{align*}
+
+Daraus folgt nun (Musterlösung verwendet):
+\begin{align*}
+\alpha &= \begin{pmatrix} v & A^T u \end{pmatrix} \begin{pmatrix} \sqrt{u^T u} \\ \frac{1}{\sqrt{u^T u}} \end{pmatrix} \\
+\beta &= \begin{pmatrix} v & A^T u \end{pmatrix} \begin{pmatrix} 0 \\ \frac{1}{\sqrt{u^T u}} \end{pmatrix} = \sqrt{u^T u} A^T u
+\end{align*}
+
+Was schlussendlich zu folgender Gleichung führt:
+\begin{align*}
+(A + uv^T)^T(A + uv^T) &= A^T A + \begin{pmatrix} v & A^T u \end{pmatrix} \begin{pmatrix} \sqrt{u^T u} \\ \frac{1}{\sqrt{u^T u}} \end{pmatrix} \left(\begin{pmatrix} v & A^T u \end{pmatrix} \begin{pmatrix} \sqrt{u^T u} \\ \frac{1}{\sqrt{u^T u}} \end{pmatrix} \right)^T - \sqrt{u^T u} A^T u (\sqrt{u^T u} A^T u)^T
+\end{align*}
+
+\subsection{10e}
+Für Lösung siehe Code (cholupdate2.m). Bin auf nahezu die gleiche Lösung gekommen wie die Musterlösung. Mein Code funktioniert aber nicht, auch die Musterlösung funktioniert bei mir nicht. Es scheitert daran 1 durch eine Matrix zu teilen. Ich habe zuerst den $./$ Operator verwendet, aber der scheint auch nicht den gewünschten Erfolg zu bringen. Sehe aber keinen Fehler, da $u^T u$ eine Matrix gibt. Das ganze führt dann zur Fehlermeldung "Matrix dimensions must agree.".
+
+\end{document}

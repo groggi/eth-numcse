@@ -1,0 +1,70 @@
+﻿== 1a ==
+Eine Matrix, die in der Diagonalen den Vektor d enthält.
+Auf der letzten Zeile und in der letzten Spalte ist der Vektor a, wobei jeweils
+das letzte Element nicht betrachtet wird. Das letzte Element der Matrix
+(untere rechte Ecke) enthält also das letzte Element des Vektors d. Die restlichen
+Elemente sind alle 0.
+
+== 1b ==
+Die Dauer der Ausführung nähert sich O(n^3) an. Dies hängt damit zusammen, dass
+Matlab zuerst die beiden Matrizen multipliziert (A * A), was zu O(n^3) führt.
+Danach kommt noch der Aufwand um die neue Matrix mit dem Vektor zu multiplizieren. Dies ist
+in O(n^2) erledigt. Somit erhalten wir O(n^3 + n^2) => O(n^3).
+Für kleine Matrizen passen die Spalten der Matrix in den Cache, was zu einer besseren Performance
+führt. Dies ist bei genug grossen Matrizen nicht mehr gegeben.
+
+== 1c ==
+Das Ziel ist es zwei Mal jeweils eine Matrix mit einem Vektor zu multiplzieren, was zu O(n^2) führt.
+Dazu setzen wir Klammern und erhalten y = A * (A * x).
+
+== 1d ==
+Grundidee: zuerst A * x berechnen, in dem wir die Form ausnutzen (siehe Code). Das Resultat A * x merken wir uns
+und rufen unsere A * x Funktion erneut auf, wobei dieses mal das x = A * x ist.
+
+== 1e ==
+Die Komplexität (siehe Code) ist etwa O(3 * n) was also in O(n) liegt.
+
+== 2a ==
+Der erste Algorithmus erzeugt in der Klammer eine Matrix (u * v^H), dadurch wird die Komplexität zu O(n^2). Der
+zweite Algorithmus addiert zwei Vektoren: In der Klammer (v^H * x) wird ein Skalar berechnet. Dadurch bekommen wir
+eine Komplexität von O(n) für (v^H * x) + 2 * O(n) für die Skalarmultiplikationen bei (a * u * (v^H * x)) + O(n) für
+die Addition der beiden Vektoren. Dies führt zu O(n). Siehe "timing_2.m"
+
+== 2c ==
+Grundidee: Wir benutzen die Formel aus Aufgabe 2: A = I + a * u * v^H. Wir möchten also auf der linken Seite der
+Gleichung (I + a * u * v^H) stehen haben. Dazu setzen wir B = I (Einheitsmatrix), x = a*u, y^H = v^H.
+
+== 2d ==
+Überlegungen:
+* B^-1 wird zu I^-1, was gleich I ist.
+* B^-1 * x * y^H * B^-1 = x * y^H
+* 1 + b = 1 + y^H * B^-1 * x = y^H * x
+
+Somit erhalten wir A^-1 = I - x*y^H / (y^H * x + 1). Dies hat die Komplexität von O(n), da die komplizierteste Operation
+das innere Produkt zweier Vektoren ist.
+
+== 2e ==
+Durch anwenden von Linearer Algebra sind beide Formen gleich.
+
+== 3a ==
+Der erste Parameter innerhalb von min() benötigt O(n^2) für die Berechnung der A_min Matrix. Der zweite Parameter braucht
+die gleiche Zeit, was für die min() Funktion bereits O(2 * n^2) gibt. Wir beachten hierbei nur Multiplikationen für die
+Messung. Die Multiplikation mit einem Vektor benötigt nun, wie bereits bekannt, O(n^2) Multiplikationen, was zu einer gesamt-
+performance von O(3 * n^2) führt, ergo: O(n^2).
+
+== 3b ==
+todo
+
+== 3c ==
+todo
+
+== 3d ==
+todo
+
+== 3e ==
+todo
+
+== 3f ==
+Matrix B ist eine dünn besetzte n x n-Matrix. Die Diagonale ist [-1, 0 ,1] und darum herum werden die Spalten von B eingefügt.
+
+== 3g ==

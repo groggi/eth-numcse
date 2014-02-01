@@ -1,0 +1,38 @@
+\documentclass[11pt]{article}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[utf8]{inputenc}
+\usepackage{soulutf8}
+\usepackage[letterpaper,headheight=14pt,includeheadfoot]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhf[HL]{Gregor Wegberg}
+\fancyhf[HR]{NumCSE - Serie 5}
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\begin{document}
+\section{Problem 15}
+\subsection{15a}
+Das Legendre Polynom ist laut Aufgabe definiert durch
+\begin{align*}
+&P_0(t) = 1\\
+&P_1(t) = t\\
+&P_{n+1}(t) = \underbrace{\frac{2n + 1}{n + 1}}_{K_1} \cdot t \cdot P_n(t) - \underbrace{\frac{n}{n+1}}_{K_2} \cdot P_{n-1}(t)
+\end{align*}. Die Augabe enthält auch das berechnen der Ableitung, also habe ich zuerst die Regel für die Ableitung des Legendre Polynom berechnet:
+\begin{align*}
+&P_0'(t) = 0\\
+&P_1'(t) = 1\\
+&P_{n+1}'(t) = \underbrace{\frac{2n + 1}{n + 1}}_{K_1} \cdot ( P_n(t) + t \cdot P_n'(t)) - \underbrace{\frac{n}{n+1}}_{K_2} P_{n-1}'(t)
+\end{align*}
+
+Um möglichst Speichereffizient zu sein, merken wir uns bei beiden Berechnungen jeweils nur die letzten zwei Berechnungen ($P_{n-1}$ und $P_{n}$) um $P_{n+1}$ zu bestimmen.
+
+\subsection{15b}
+Frage: Welches $m$, ich habe nur ein $n$ und eine Grösse von $t$ Werten. Sind diese Werte das $m$?
+
+Antwort: Sei $m$ die Grösse von $t$ und $n$ der Grad des Legendre Polynoms. Dann gilt für $n \to \infty$: $O(n)$, da wir eine Schleife haben, die $n-1$ mal durchlaufen wird und in dieser nur noch konstant viele Operationen passieren. Für $m \to \infty$ gilt: $O(m)$ da wir zwei Mal durch alle Elemente in $t$ durchgehen für die Berechnung.
+\end{document}

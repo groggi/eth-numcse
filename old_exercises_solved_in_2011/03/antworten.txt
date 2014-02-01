@@ -1,0 +1,41 @@
+﻿= Vorbereitung =
+Hilfe durchgelesen:
+- sparse() [http://www.mathworks.ch/ch/help/matlab/ref/sparse.html]
+	Macht aus einer vollen Matrix eine dünn besetzte Matrix.  Soll heissen: Matlab verändert die Art, wie die Matrix abgespeichert wird. Die Werte der Matrix werden nicht verändert.
+	
+- spdiags() [http://www.mathworks.ch/ch/help/matlab/ref/spdiags.html]
+	Wie diags(), nur für sparse Matrizen
+	
+- spy() [http://www.mathworks.ch/ch/help/matlab/ref/spy.html]
+	Stellt die "sparsity" dar als Graphen. Ein Punkt im Graphen stellt ein Element ungleich null dar
+	
+- speye() [http://www.mathworks.ch/ch/help/matlab/ref/speye.html]
+	Erzeugt eine sparse Idenitätsmatrix. Also das gleiche wie eye(), nur wird es in einer anderen Form abgespeichert als "normale" Matrizen
+	
+- full() [http://www.mathworks.ch/ch/help/matlab/ref/full.html]
+	Gegenstück zu sparse(). Macht aus einer sparse Matrix eine "normale" (volle)
+	
+- issparse() [http://www.mathworks.ch/ch/help/matlab/ref/issparse.html]
+	Logische funktion, die 1 liefert wenn die gegebene Matrix als "sparse matrix" gespeichert wurde, sonst 0
+	
+= 7a =
+Erledigt, einfach gegebenen Code ausführen und dann spy auf die erzeugte Matrix aufrufen. Dabei sieht man drei diagonale "Linien" im Graphen. Eine "dicke" in der mitte und zwei dünnere an den Seiten parallel zu der dicken
+
+= 7b =
+-> Code
+
+= 7c =
+-> Code
+
+= 8a =
+-> Code
+
+= 8b =
+Bezüglich n:
+	find(A) muss sicher jedes Element einmal ansehen, was schon einmal zu O(n^2) führt, da wir n^2 Elemente haben. Dazu kommt die find(diff(...)) Zeile dazu. Auch diese wird jeweils jedes Element vergleichen innerhalb des Vektors, was O(n) braucht. CCS(A) liegt also in O(n^2).
+	
+Bezüglich p:
+	Ist nur interessant, wenn Matrix als sparse Matrix gespeichert ist. Dann benötigt das find(A) nur noch O(p), da die nicht-0 Elemente gar nicht betrachtet werden. col_ptr benötigt weiterhin O(n), was zu O(n+p) führt.
+	
+= 8c =
+N/A
